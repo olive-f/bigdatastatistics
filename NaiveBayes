@@ -1,1 +1,71 @@
+# Classification using Naive Bayes
+# Gaussian NB
+file1="c:/temp/iris.csv"
+iris=pd.read_csv(file1)
 
+pd.value_counts(iris['Species'])
+
+# 전체
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+
+gnb=GaussianNB().fit(X,y)
+pred=gnb.predict(X)
+confusion_matrix(y,pred)
+
+# train test split
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+X_train,X_test,y_train,y_test=train_test_split(X,y,random_state=0,train_size=0.7)
+gnb=GaussianNB().fit(X_train,y_train)
+pred=gnb.predict(X_test)
+confusion_matrix(y_test,pred)
+
+# Multinomial NB
+file2="c:/temp/multi_nb.csv"
+data2=pd.read_csv(file2)
+
+# 전체
+X=data2[['x1','x2']]
+y=data2['y']
+clf=MultinomialNB()
+result=clf.fit(X,y)
+pred=result.predict(X)
+confusion_matrix(y,pred)
+
+# train test split
+X=data2[['x1','x2']]
+y=data2['y']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+clf=MultinomialNB()
+result=clf.fit(X_train,y_train)
+pred=result.predict(X_test)
+confusion_matrix(y_test,pred)
+
+# Bernoulli Naive Bayes
+np.random.seed(1234)
+X=np.random.randint(2,size=(500,10))
+y=np.random.randint(2,size=(500,1))
+X_train=X[:450,:]
+X_test=X[450:,:]
+y_train=y[:450,:]
+y_test=y[450:,:]
+
+clf=BernoulliNB()
+result=clf.fit(X_train,y_train)
+pred=result.predict(X_test)
+confusion_matrix(y_test,pred)
+
+# ~ Laplace Smoothing
+np.random.seed(1234)
+X=np.random.randint(2,size=(500,10))
+y=np.random.randint(2,size=(500,1))
+X_train=X[:450,:]
+X_test=X[450:,:]
+y_train=y[:450,:]
+y_test=y[450:,:]
+
+clf=BernoulliNB(alpha=1)
+result=clf.fit(X_train,y_train)
+pred=result.predict(X_test)
+confusion_matrix(y_test,pred)
