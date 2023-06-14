@@ -1,0 +1,13 @@
+# CART: Classification and Regression Tree
+
+# Gini Index Grpah
+x=np.linspace(0,1,100)
+y=1-(x**2+(1-x)**2)
+plt.plot(x,y)
+plt.show()
+
+# Entropy Graph
+x=np.linspace(0,1,100)
+y=-x*np.log2(x)-(1-x)*np.log2(1-x)
+plt.plot(x,y)
+plt.show()
