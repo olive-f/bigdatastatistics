@@ -1,1 +1,119 @@
+# with replacement
+data3=np.array([1,2,3,4,5])
+np.random.seed(0)
+np.random.choice(data3,size=30,replace=True)
+
+np.random.seed(0)
+iris_100=iris.iloc[np.random.randint(150,size=100)]
+iris_100
+# iris_100왜 한거지..? 아 하 with replacement가 뭔지 보려고 그랬던건같다.
+
+# Bagging, RandomForest
+
+# Bagging, Classifier
+# bag1, Bagging, train test split, tree=10개
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+bag1=RandomForestClassifier(n_estimators=10,max_features=None,random_state=0,max_depth=2)
+result1=bag1.fit(X_train,y_train)
+pred1=result1.predict(X_test)
+confusion_matrix(y_test,pred1)
+
+# bag1 예측 성과 CCR
+(16+17+8)/(16+17+8+1+3)
+
+# bag2, bagging, train test split, tree=100개
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+bag2=RandomForestClassifier(n_estimators=100,max_features=None,random_state=0,max_depth=2)
+result2=bag2.fit(X_train,y_train)
+pred2=result2.predict(X_test)
+confusion_matrix(y_test,pred2)
+
+# bag2 예측 성과 CCR
+(16+17+10)/(16+17+10+1+1)
+
+# bag3, bagging, train test split, tree=500개
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+bag3=RandomForestClassifier(n_estimators=500,max_features=None,random_state=0,max_depth=2)
+result3=bag3.fit(X_train,y_train)
+pred3=result3.predict(X_test)
+confusion_matrix(y_test,pred3)
+
+# bag3 예측 성과 CCR
+(16+17+11)/(16+17+11+1)
+
+# RandomForest, Classifier
+# rf4, random forest, train test split, tree=10개
+X=iris[['Sepal.Length','Sepal.Width','Petal.Length','Petal.Width']]
+y=iris['Species']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+rf4=RandomForestClassifier(n_estimators=10,max_features='auto',max_samples=0.66,random_state=0,max_depth=2)
+result4=rf4.fit(X_train,y_train)
+pred4=result4.predict(X_test)
+confusion_matrix(y_test,pred4)
+
+# rf4 예측 성과 CCR
+(16+17+10)/(16+17+10+1+1)
+
+# Bagging, Regressor
+# bag5, bagging, train test split, tree=100개, y가 연속형
+X=data5.drop('medv',axis=1)
+y=data5['medv']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+bag5=RandomForestRegressor(n_estimators=100,max_features=None,random_state=0,max_depth=3)
+result5=bag5.fit(X_train,y_train)
+pred5=result5.predict(X_test)
+mean_squared_error(y_test,pred5)
+
+# Randomforest, Regressor
+# rf6, random forest, train test split, tree=100개, y가 연속형
+X=data5.drop('medv',axis=1)
+y=data5['medv']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+
+rf6=RandomForestRegressor(n_estimators=100,max_features='auto',max_samples=0.66,random_state=0,max_depth=3)
+result6=rf6.fit(X_train,y_train)
+pred6=result6.predict(X_test)
+mean_squared_error(y_test,pred6)
+
+# random foest에서 사용하는 x 변수 개수 =4개
+np.sqrt(전체 x변수 개수)
+
+# rf 에서 각 x 변수의 vip 값: 클 수록 중요한 변수(그 변수가 추가되었을 때 얼마나 개선되느냐)
+imp=result6.feature_importances_
+imp
+
+# vip 그리기
+imp1=pd.DataFrame({'importance':imp},index=X.columns)
+imp1.sort_values('importance',ascending=True,inplace=True)
+imp1.plot(kind='barh',color='black')
+plt.show()
+
+
+# mse는 작을 수록 좋음
+# y가 연속, regressor 일때 mse, y가 범주, classifier, confusion matrix
+# Bagging의 mse가 random forest의 mse가 더 작다. bagging이 더 좋은 것
+
+
+
+
+
+
+
+
+
+
+
+
+
 
