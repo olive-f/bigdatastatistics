@@ -124,6 +124,27 @@ y_pred4=result4.predict_proba(X)
 y_pred4
 # 모든 각 데이터가 1이 나오든 2가 나오든, 1일 확률, 2일 확률이 있음. 그걸 보여줌
 
+# Regression Tree = y가 연속형
+y=data2['medv']
+X=data2.drop('medv',axis=1)
+
+X_train=X.iloc[:400,:]
+X_test=X.iloc[400:,:]
+y_train=y.iloc[:400]
+y_test=y.iloc[400:]
+
+# tree 5, y가 연속형, train test split, gini index
+tree5=DecisionTreeRegressor(max_depth=3, random_state=0)
+result5=tree5.fit(X_train,y_train)
+
+# tree5 그리기
+dot_data=export_graphviz(result5,feature_names=X.columns, filled=True, rounded=True, class_names=True)
+tree_graph5=graphviz.Source(dot_data)
+tree_graph5
+
+# tree5 : 예측 성과
+pred5=result5.predict(X_test)
+mean_squared_error(y_test,pred5)
 
 
 
