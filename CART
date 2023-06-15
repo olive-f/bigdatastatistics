@@ -11,3 +11,119 @@ x=np.linspace(0,1,100)
 y=-x*np.log2(x)-(1-x)*np.log2(1-x)
 plt.plot(x,y)
 plt.show()
+
+# tree1 : 전체, gini index
+y=data1['default']
+X1=pd.get_dummies(data1['credit_history'],drop_first=True)
+X=pd.concat([X1,data1['age'],data1['amount']],axis='columns')
+
+tree1=DecisionTreeClassifier(max_depth=3,random_state=0)
+result1=tree1.fit(X,y)
+result1
+
+# tree1 그리기
+dot_data=export_graphviz(result1,feature_names=X.columns, filled=True, rounded=True, class_names=True)
+tree_graph1=graphviz.Source(dot_data)
+tree_graph1
+
+# tree 1 : gini index 계산하기 
+1-((10/25)**2+(15/25)**2)
+
+# tree1 : 예측 성과
+pred1=result1.predict(X)
+confusion_matrix(y,pred1)
+
+# CCR : tree1, 전체, gini
+(684+40)/(684+40+260+16)
+
+# tree 2 : train test split, gini index
+y=data1['default']
+X1=pd.get_dummies(data1['credit_history'],drop_first=True)
+X=pd.concat([X1,data1['age'],data1['amount']],axis='columns')
+X_train,X_test,y_train,y_test=train_test_split(X,y,random_state=0,train_size=0.7)
+
+tree2=DecisionTreeClassifier(max_depth=3,random_state=0)
+result2=tree2.fit(X_train,y_train)
+result2
+
+# tree2 그리기
+dot_data=export_graphviz(result2,feature_names=X.columns, filled=True, rounded=True, class_names=True)
+tree_graph2=graphviz.Source(dot_data)
+tree_graph2
+
+# tree 2 : gini index 계산하기 
+1-((460/620)**2+(160/620)**2)
+
+# tree2 : 예측 성과
+pred2=result2.predict(X_test)
+confusion_matrix(y_test,pred2)
+
+pred2 # pred2 보면 각각 데이터가 1또는 2로 예측이됨
+y_pred2=result2.predict_proba(X)
+y_pred2
+# 모든 각 데이터가 1이 나오든 2가 나오든, 1일 확률, 2일 확률이 있음. 그걸 보여줌
+
+# tree3 : 전체, entropy
+y=data1['default']
+X1=pd.get_dummies(data1['credit_history'],drop_first=True)
+X=pd.concat([X1,data1['age'],data1['amount']],axis='columns')
+
+tree3=DecisionTreeClassifier(max_depth=3,random_state=0,criterion='entropy')
+result3=tree3.fit(X,y)
+result3
+
+# tree3 그리기
+dot_data=export_graphviz(result3,feature_names=X.columns, filled=True, rounded=True, class_names=True)
+tree_graph3=graphviz.Source(dot_data)
+tree_graph3
+
+# tree 3 : entropy 계산하기 
+-(256/384)*np.log2(256/384)-(128/384)*np.log2(128/384)
+
+# tree3 : 예측 성과
+pred3=result3.predict(X)
+confusion_matrix(y,pred3)
+
+# CCR tree3
+(694+25)/(694+25+6+27)
+
+pred3 # pred3 보면 각각 데이터가 1또는 2로 예측이됨
+y_pred3=result3.predict_proba(X)
+y_pred3
+# 모든 각 데이터가 1이 나오든 2가 나오든, 1일 확률, 2일 확률이 있음. 그걸 보여줌
+
+# tree4, entropy, train test split
+
+y=data1['default']
+X1=pd.get_dummies(data1['credit_history'],drop_first=True)
+X=pd.concat([X1,data1['age'],data1['amount']],axis='columns')
+X_train,X_test,y_train,y_test=train_test_split(X,y,random_state=0,train_size=0.7)
+
+tree4=DecisionTreeClassifier(max_depth=3,random_state=0, criterion='entropy')
+result4=tree4.fit(X_train,y_train)
+result4
+
+# tree4 그리기
+dot_data=export_graphviz(result4,feature_names=X.columns, filled=True, rounded=True, class_names=True)
+tree_graph4=graphviz.Source(dot_data)
+tree_graph4
+
+# tree 4 : entropy 계산하기 
+-(460/620)*np.log2(460/620)-(160/620)*np.log2(160/620)
+
+# tree4 : 예측 성과
+pred4=result4.predict(X_test)
+confusion_matrix(y_test,pred4)
+
+# CCR, tree4
+(198+16)/(198+16+16+70)
+
+pred4 # pred4 보면 각각 데이터가 1또는 2로 예측이됨
+
+y_pred4=result4.predict_proba(X)
+y_pred4
+# 모든 각 데이터가 1이 나오든 2가 나오든, 1일 확률, 2일 확률이 있음. 그걸 보여줌
+
+
+
+
