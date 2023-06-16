@@ -1,1 +1,58 @@
+# unsupervised learning
+
+# 데이터 불러오기
+file3="c:/temp/psysed.csv"
+psysed=pd.read_csv(file3)
+psysed
+# k-means clustering ; flexibility, speed, strength 중에 두개만 써서 하자
+# 우선 분포를 보자
+plt.scatter(psysed['speed'],psysed['strength'],color='black')
+plt.show()
+
+# clustering 전, 변수 지정
+X=psysed[['speed','strength']]
+X_scaled=StandardScaler().fit_transform(X) # 표준화하기 : StandardSclaer
+
+# kmeans_3, k=3
+kmeans_3=KMeans(n_clusters=3,random_state=0,n_init=10,max_iter=300)
+kmeans_3.fit(X,y)
+
+# 중심점의 위치, k=3, kemans_3
+kmeans_3.cluster_centers_
+
+# WSS, k=3, kemans_3 / 중심점이 3개일 때 평균길이 합의 최소
+kmeans_3.inertia_
+
+# 각 데이터 값이 어느 클러스터에 들어가 있는 지, kmeans_3
+kmeans_3.labels_
+
+# 각 데이터가 들어간 클러스터 정보를 원 데이터에 넣자
+df1=pd.DataFrame(kmeans_3.labels_,columns=['cluster_3'])
+
+psysed_new=pd.concat([psysed,df1],axis=1)
+psysed_new
+
+pd.value_counts(psysed_new['cluster_3'])
+
+# 각 cluster의 x 값 평균
+psysed_new.groupby('cluster_3')[['speed','strength']].mean()
+
+
+# k=4, kmeans_4
+kmeans_4=KMeans(n_clusters=4, random_state=0,n_init=10,max_iter=300)
+kmeans_4.fit(X,y)
+# WSS, k=4, kemans_4 / 중심점이 4개일 때 평균길이 합의 최소
+kmeans_4.inertia_
+
+
+# k=5, kmeans_5
+kmeans_5=KMeans(n_clusters=5, random_state=0,n_init=10,max_iter=300)
+kmeans_5.fit(X,y)
+# WSS, k=5, kemans_5 / 중심점이 5개일 때 평균길이 합의 최소
+kmeans_5.inertia_
+
+# elbow : 확 작아지고 그 다음 부터 안작아지면 그때가 'k'
+
+
+
 
