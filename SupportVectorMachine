@@ -1,1 +1,115 @@
+# 데이터 불러오기
+
+file1="c:/temp/svm_data1.csv"
+data1=pd.read_csv(file1)
+data1
+
+# 데이터 분포가 어떤지 보기.. 
+plt.scatter(data1['X1'],data1['X2'],c=data1['y']) 
+plt.show()
+
+# non linear seperable , 1) Slack (Cost parameter = C)
+
+# svc1, small C, C=0.1, large margin
+X=data1[['X1','X2']]
+y=data1['y']
+svc1=SVC(C=0.1,kernel='linear',random_state=0)
+result1=svc1.fit(X,y)
+result1
+
+# svc1, support vector 개수
+result1.support_.size
+
+# svc1, support vector로 쓰인 데이터
+result1.support_ 
+
+# svc1, support vectors로 쓰인 18개 변수의 데이터 값
+result1.support_vectors_
+
+# svc1, 예측 성과
+pred1=result1.predict(X)
+confusion_matrix(y,pred1)
+# svc1, CCR
+(10+5)/(10+5+5)
+
+# svc2, Large C -> tiny margin
+svc2=SVC(C=1.0,kernel='linear',random_state=0)
+result2=svc2.fit(X,y)
+result2
+
+# svc2, support vector 개수
+result2.support_.size
+
+# svc2, support vector로 쓰인 데이터
+result2.support_ 
+
+# svc2, support vectors로 쓰인 12개 변수의 데이터 값
+result2.support_vectors_
+
+# svc2, 예측 성과
+pred2=result2.predict(X)
+confusion_matrix(y,pred2)
+# svc2, CCR
+(8+8)/(8+8+2+2)
+
+# svc3, small C(large margin), train test split
+X=data1[['X1','X2']]
+y=data1['y']
+X_train,X_test,y_train,y_test=train_test_split(X,y,train_size=0.7,random_state=0)
+svc3=SVC(C=0.1,kernel='linear',random_state=0)
+result3=svc3.fit(X_train,y_train)
+result3
+
+# svc3, 서포트 벡터 개수
+result3.support_.size
+
+# svc3, 서포트 벡터 번호수
+result3.support_
+
+# svc3, support vectors로 쓰인 12개의 데이터 값
+result3.support_vectors_
+
+# svc3 예측성과
+pred3=result3.predict(X_test)
+confusion_matrix(y_test,pred3)
+# svc3, CCR
+(1+2)/(1+2+3)
+
+
+# non linear seperable, 2) kernel function
+
+# 데이터 불러오기
+file2="c:/temp/svm_data1.csv"
+data2=pd.read_csv(file2)
+data2
+
+# svc4, kernel function=gaussian rbf, small C-> large margin
+X=data1[['X1','X2']]
+y=data1['y']
+svc4=SVC(C=0.1,kernel='rbf',gamma='scale',random_state=0)
+# gamma 지정 안했을 때, 자동으로 'scale' 사용됨
+# gammma='auto' (x변수의 역수)로 지정할 수도 있음
+result4=svc4.fit(X,y)
+result4
+
+# svc4, 예측
+pred4=result4.predict(X)
+pred4
+# svc4, 예측성과
+confusion_matrix(y,pred4)
+# svc4, CCR
+(10+7)/(10+7+3)
+
+# svc5, kernel function=polynomial, small C-> large margin
+X=data1[['X1','X2']]
+y=data1['y']
+svc5=SVC(C=0.1,kernel='poly',degree=3,random_state=0)
+result5=svc5.fit(X,y)
+pred5=result5.predict(X)
+confusion_matrix(y,pred5)
+# svc4, CCR
+(5+9)/(5+9+1+5)
+
+
+
 
