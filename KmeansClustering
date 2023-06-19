@@ -15,7 +15,7 @@ X_scaled=StandardScaler().fit_transform(X) # 표준화하기 : StandardSclaer
 
 # kmeans_3, k=3
 kmeans_3=KMeans(n_clusters=3,random_state=0,n_init=10,max_iter=300)
-kmeans_3.fit(X,y)
+kmeans_3.fit(X)
 
 # 중심점의 위치, k=3, kemans_3
 kmeans_3.cluster_centers_
@@ -40,14 +40,14 @@ psysed_new.groupby('cluster_3')[['speed','strength']].mean()
 
 # k=4, kmeans_4
 kmeans_4=KMeans(n_clusters=4, random_state=0,n_init=10,max_iter=300)
-kmeans_4.fit(X,y)
+kmeans_4.fit(X)
 # WSS, k=4, kemans_4 / 중심점이 4개일 때 평균길이 합의 최소
 kmeans_4.inertia_
 
 
 # k=5, kmeans_5
 kmeans_5=KMeans(n_clusters=5, random_state=0,n_init=10,max_iter=300)
-kmeans_5.fit(X,y)
+kmeans_5.fit(X)
 # WSS, k=5, kemans_5 / 중심점이 5개일 때 평균길이 합의 최소
 kmeans_5.inertia_
 
